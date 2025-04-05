@@ -14,3 +14,28 @@ If you need to install any packages you will need to rebuild the docker containe
 ## Installing python packages
 If you need to use any python packages add them to the requirements.txt and rebuild the docker containers. using the original command. It will look like they work fine in your environment but the docker contaainer has to install it seperately so be aware.
 
+## API
+Send a post request to `http://localhost:5000/api/sendmp3` it needs to be a `multipart/form-data`. It needs a file and user below is and example of a request.
+#### Example Request
+```const data = new FormData();
+data.append("file", "<path to mp3 file>");
+data.append("user", "Jelly");
+
+const xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function () {
+  if (this.readyState === this.DONE) {
+    console.log(this.responseText);
+  }
+});
+
+xhr.open("POST", "http://localhost:5000/api/sendmp3");
+xhr.send(data);
+```
+#### Example Response
+```
+{
+	"genre": "country"
+}
+```

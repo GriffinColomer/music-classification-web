@@ -10,6 +10,7 @@ frontend/coverage
 
 # production
 frontend/build
+backend/MachineLearning/cnn_scripted.pt
 
 # misc
 frontend/.DS_Store
@@ -25,3 +26,4 @@ frontend/yarn-error.log*
 # python env
 .venv
 backend/__pycache__
+backend/MachineLearning/__pycache__
