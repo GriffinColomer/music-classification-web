@@ -1,4 +1,5 @@
 import os
+import uuid
 import torch
 import librosa
 import librosa.display
@@ -9,12 +10,12 @@ import matplotlib.pyplot as plt
 from pydub import AudioSegment
 import torchvision.transforms as transforms
 
-# Load the TorchScript model (once)
+# Load the TorchScript model
 model_path = os.path.join(os.path.dirname(__file__), "cnn_scripted.pt")
 model = torch.jit.load(model_path, map_location=torch.device("cpu"))
 model.eval()
 
-# Define your genre classes (adjust if needed)
+# Define your genre classes
 class_names = ['classical', 'jazz', 'rock', 'pop', 'metal', 'blues', 'reggae', 'hiphop', 'country', 'disco']
 
 # Transform to prepare spectrogram for model
@@ -23,11 +24,11 @@ image_transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
-def preprocess_audio_to_spectrogram(audio_path, user, gain_db=5, output_image_path="spectrogram.png"):
-    # Boost volume
+def preprocess_audio_to_spectrogram(audio_path, gain_db=5, output_image_path="spectrogram.png"):
+    # Boost volume 
     audio = AudioSegment.from_file(audio_path)
     louder = audio + gain_db
-    boosted_path = os.path.splitext(audio_path)[0] + f"_boosted_{user}.wav"
+    boosted_path = os.path.splitext(audio_path)[0] + f"_boosted_{str(uuid.uuid4())}.wav"
     print(boosted_path)
     louder.export(boosted_path, format="wav")
 
@@ -49,8 +50,23 @@ def preprocess_audio_to_spectrogram(audio_path, user, gain_db=5, output_image_pa
 
     return output_image_path
 
-def get_genre_from_audio(audio_path, user):
-    spectrogram_path = preprocess_audio_to_spectrogram(audio_path, user)
+def audio_to_spectrogram(audio_path, output_image_path="non_blob_spectrogram.png"):
+    
+    
+    # Save spectrogram image
+    plt.figure(figsize=(2, 2))
+    librosa.display.specshow(mel_spec_db, sr=sr, x_axis='time', y_axis='mel')
+    plt.axis('off')
+    plt.tight_layout(pad=0)
+    plt.savefig(output_image_path, bbox_inches='tight', pad_inches=0)
+    plt.close()
+
+def get_genre_from_audio(audio_path, blob=False):
+    print(audio_path)
+    if blob:
+        spectrogram_path = preprocess_audio_to_spectrogram(audio_path)
+    else:
+        spectrogram_path = audio_to_spectrogram(audio_path)
     image = Image.open(spectrogram_path).convert("RGB")
     input_tensor = image_transform(image).unsqueeze(0)
 
