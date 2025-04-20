@@ -70,7 +70,7 @@ function App() {
 
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-          setResponse(xhr.responseText);
+          setResponse(JSON.parse(xhr.responseText));
           console.log(xhr.responseText);
         }
       };
@@ -95,7 +95,7 @@ function App() {
       <header className="App-header">
         <input type="file" accept=".mp3" onChange={handleFileChange} />
         <button onClick={handleUpload}>Send</button>
-        {response && <p>Genre: {response}</p>}
+        {response && <p>Genre: {response.genre}</p>}
       </header>
 
       <header>
@@ -103,7 +103,7 @@ function App() {
           {recording ? 'Stop Recording' : 'Start Recording'}
         </button>
         {response && (
-          <p>Genre: {response}</p>
+          <p>Genre: {response.genre}</p>
         )}
       </header>
     </div>

@@ -24,7 +24,7 @@ image_transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
-def preprocess_audio(audio_path, gain_db=7):
+def preprocess_audio(audio_path, gain_db=12):
     # Boost volume
     audio = AudioSegment.from_file(audio_path)
     louder = audio + gain_db
@@ -35,7 +35,7 @@ def preprocess_audio(audio_path, gain_db=7):
     louder.export(boosted_path, format="wav")
 
     # Load and apply noise reduction
-    y, sr = librosa.load(boosted_path, sr=48000)
+    y, sr = librosa.load(boosted_path)
     y_denoised = nr.reduce_noise(y=y, sr=sr, stationary=True, prop_decrease=0.2)
 
     return y_denoised, sr
@@ -44,7 +44,7 @@ def generate_spectrogram(y=None, sr=None, audio_path=None, output_image_path="sp
     if y is None or sr is None:
         if not audio_path:
             raise ValueError("Must provide either (y, sr) or audio_path.")
-        y, sr = librosa.load(audio_path, sr=48000)
+        y, sr = librosa.load(audio_path)
     
     # Generate mel spectrogram
     mel_spec = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128)
