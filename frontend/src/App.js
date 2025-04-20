@@ -70,7 +70,12 @@ function App() {
 
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-          setResponse(JSON.parse(xhr.responseText));
+          try {
+            const jsonResponse = JSON.parse(xhr.responseText);
+            setResponse(jsonResponse.genre);
+          } catch (error) {
+            setResponse('Error processing response');
+          }
           console.log(xhr.responseText);
         }
       };
