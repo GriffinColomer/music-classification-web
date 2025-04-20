@@ -36,3 +36,83 @@
     transform: rotate(360deg);
   }
 }
+
+input[type="file"]::file-selector-button {
+  background-color: #FF4D8D;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 77, 141, 0.3);
+}
+
+input[type="file"]::file-selector-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 77, 141, 0.4);
+}
+
+button {
+  background-color: #FF4D8D;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 77, 141, 0.3);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 77, 141, 0.4);
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Style the file input container */
+input[type="file"] {
+  color: white;
+  padding: 10px;
+}
+
+/* Updated header styles for button spacing */
+.App header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.app-title {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.5em;
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(255, 77, 141, 0.6);
+}
+
+/* Make sure the button container stays centered */
+.button-container {
+  margin-top: 0;
+  position: relative;
+}

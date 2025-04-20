@@ -93,18 +93,19 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <input type="file" accept=".mp3" onChange={handleFileChange} />
-        <button onClick={handleUpload}>Send</button>
-        {response && <p>Genre: {response.genre}</p>}
-      </header>
-
-      <header>
-        <button onClick={startRecording} disabled={recording}>
-          {recording ? 'Stop Recording' : 'Start Recording'}
-        </button>
-        {response && (
-          <p>Genre: {response.genre}</p>
-        )}
+        <h1 className="app-title">Real-Time Music Genre Detection</h1>
+        <div className="button-container">
+          <div className="upload-section">
+            <input type="file" accept=".mp3" onChange={handleFileChange} />
+            <button onClick={handleUpload}>Send</button>
+          </div>
+          <div className="record-section">
+            <button onClick={startRecording} disabled={recording}>
+              {recording ? 'Stop Recording' : 'Start Recording'}
+            </button>
+          </div>
+        </div>
+        {response && <p className="genre-response">Genre: {response}</p>}
       </header>
     </div>
   );
