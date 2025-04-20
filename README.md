@@ -19,7 +19,6 @@ Send a post request to `http://localhost:5000/api/sendmp3` it needs to be a `mul
 #### Example Request
 ```const data = new FormData();
 data.append("file", "<path to mp3 file>");
-data.append("user", "Jelly");
 
 const xhr = new XMLHttpRequest();
 xhr.withCredentials = true;

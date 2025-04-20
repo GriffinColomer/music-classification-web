@@ -24,23 +24,33 @@ image_transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
-def preprocess_audio_to_spectrogram(audio_path, gain_db=5, output_image_path="spectrogram.png"):
-    # Boost volume 
+def preprocess_audio(audio_path, gain_db=7):
+    # Boost volume
     audio = AudioSegment.from_file(audio_path)
     louder = audio + gain_db
+
+    # Export boosted audio to temporary file
     boosted_path = os.path.splitext(audio_path)[0] + f"_boosted_{str(uuid.uuid4())}.wav"
-    print(boosted_path)
+    print(f"Boosted audio saved to: {boosted_path}")
     louder.export(boosted_path, format="wav")
 
-    # Load and reduce noise
+    # Load and apply noise reduction
     y, sr = librosa.load(boosted_path, sr=48000)
     y_denoised = nr.reduce_noise(y=y, sr=sr, stationary=True, prop_decrease=0.2)
 
-    # Generate spectrogram
-    mel_spec = librosa.feature.melspectrogram(y=y_denoised, sr=sr, n_mels=128)
-    mel_spec_db = librosa.power_to_db(mel_spec, ref=np.max)
+    return y_denoised, sr
+
+def generate_spectrogram(y=None, sr=None, audio_path=None, output_image_path="spectrogram.png"):
+    if y is None or sr is None:
+        if not audio_path:
+            raise ValueError("Must provide either (y, sr) or audio_path.")
+        y, sr = librosa.load(audio_path, sr=48000)
     
-    # Save spectrogram image
+    # Generate mel spectrogram
+    mel_spec = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128)
+    mel_spec_db = librosa.power_to_db(mel_spec, ref=np.max)
+
+    # Plot and save spectrogram
     plt.figure(figsize=(2, 2))
     librosa.display.specshow(mel_spec_db, sr=sr, x_axis='time', y_axis='mel')
     plt.axis('off')
@@ -50,23 +60,13 @@ def preprocess_audio_to_spectrogram(audio_path, gain_db=5, output_image_path="sp
 
     return output_image_path
 
-def audio_to_spectrogram(audio_path, output_image_path="non_blob_spectrogram.png"):
-    
-    
-    # Save spectrogram image
-    plt.figure(figsize=(2, 2))
-    librosa.display.specshow(mel_spec_db, sr=sr, x_axis='time', y_axis='mel')
-    plt.axis('off')
-    plt.tight_layout(pad=0)
-    plt.savefig(output_image_path, bbox_inches='tight', pad_inches=0)
-    plt.close()
-
 def get_genre_from_audio(audio_path, blob=False):
     print(audio_path)
     if blob:
-        spectrogram_path = preprocess_audio_to_spectrogram(audio_path)
+        y, sr = preprocess_audio(audio_path)
+        spectrogram_path = generate_spectrogram(y, sr)
     else:
-        spectrogram_path = audio_to_spectrogram(audio_path)
+        spectrogram_path = generate_spectrogram(audio_path)
     image = Image.open(spectrogram_path).convert("RGB")
     input_tensor = image_transform(image).unsqueeze(0)
 

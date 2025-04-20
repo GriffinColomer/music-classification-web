@@ -52,7 +52,7 @@ def classify_blob():
         file.save(filepath)
 
         try:
-            genre = get_genre_from_audio(filepath)
+            genre = get_genre_from_audio(filepath, blob=True)
             return jsonify({'genre': genre}), 200
 
         except Exception as e:
