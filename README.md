@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## How to run
 
-After cloning repository make sure you have docker installed. You should run the environment in the docker container. Also download the file [here](https://iit0-my.sharepoint.com/:u:/g/personal/gcolomer_hawk_iit_edu/Eeluc0cA5zVMjyJ_1WKzB64BFeXP5Fa4_Ai0DDQZTJBTwA?e=RLHi3n) and put it into `backend/MachineLearning`
+After cloning repository make sure you have docker installed. You should run the environment in the docker container. Also download the file [here](https://drive.google.com/file/d/1DreyPFynxUjo4_RnMi1YBH-45776my4K/view?usp=sharing) and put it into `backend/MachineLearning`
 
 To start the app use `docker-compose up --build --watch` This will run the webapp in a controled and repeatable environment. You will be able to edit any of the files just as when reguarly developing react [here](http://localhost:3000/). Or if you are working on the backend I built it using flask, the port it's using is 5000. Just edit whatever files you need in there. It will automatically be updated as well.
 
