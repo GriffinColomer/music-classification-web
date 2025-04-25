@@ -1,6 +1,10 @@
-# Developing the webapp
+# Running the Web App
+1. Clone the repositoty
+2. Download the model [here](https://drive.google.com/file/d/1DreyPFynxUjo4_RnMi1YBH-45776my4K/view?usp=sharing). Move the model into `backend/MachineLearning`
+3. Start the web app with `docker-compose up`
+4. Visit the site [here](http://localhost:3000)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Developing the webapp
 
 ## How to run
 
